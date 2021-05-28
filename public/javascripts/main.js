@@ -5,7 +5,7 @@ import angles from './isomorphisms/angles.js'
 import renderPolygon from './views/polygon.js'
 import { seed, noise } from './utilities/noise.js'
 import { stableSort, remap, grid, clamp } from './utilities/index.js'
-import { NOISE_FACTOR, JITTER_RESOLUTION, TRANSLATION_RESOLUTION } from './constants/dimensions.js'
+import { NOISE_FACTOR, JITTER_RESOLUTION, TRANSLATION_RESOLUTION, FPS } from './constants/dimensions.js'
 
 // Copyright (c) 2020 Nathaniel Wroblewski
 // I am making my contributions/submissions to this project solely in my personal
@@ -91,7 +91,7 @@ for (let i = 0; i < noisyPoints.length; i += 3) {
   }
 }
 
-const step = () => {
+const render = () => {
   context.clearRect(0, 0, canvas.width, canvas.height)
 
   hexes.forEach((hex, index) => {
@@ -148,7 +148,18 @@ const step = () => {
   })
 
   time += 0.02
+}
+
+let prevTick = 0
+
+const step = () => {
   window.requestAnimationFrame(step)
+
+  const now = Math.round(FPS * Date.now() / 1000)
+  if (now === prevTick) return
+  prevTick = now
+
+  render()
 }
 
 step()

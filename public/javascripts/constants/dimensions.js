@@ -9,3 +9,4 @@ export const NOISE_FACTOR = 20
 
 export const JITTER_RESOLUTION = 0.5
 export const TRANSLATION_RESOLUTION = 0.03
+export const FPS = 60
